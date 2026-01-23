@@ -189,25 +189,6 @@ document.addEventListener('mouseover', (e) => {
 
 
 
-// Add to script.js
-function updateCoordinates() {
-  const coords = document.querySelector('.agency-stamp');
-  if (!coords) return;
-
-  const lat = (Math.random() * 180 - 90).toFixed(4);
-  const lng = (Math.random() * 360 - 180).toFixed(4);
-
-  coords.innerHTML = `STARK_INDUSTRIES // LOC: ${lat}, ${lng} // SIG_STRENGTH: 98%`;
-}
-
-setInterval(updateCoordinates, 2000);
-
-
-
-
-
-
-
 
 // Add to script.js
 function triggerBurst() {
@@ -260,7 +241,7 @@ function init() {
   switchNode('profile');
   generateXenonStream();
   setInterval(updateClock, 1000);
-  setInterval(addInterceptLog, 5000);
+  // setInterval(addInterceptLog, 5000);
 
 
   // Add this to your script.js inside init()
@@ -284,7 +265,7 @@ function init() {
     }, 2000);
   }
 
-  setInterval(simulateSignalSpike, 8000);
+  // setInterval(simulateSignalSpike, 8000);
 
   
 }

@@ -48,8 +48,62 @@
             <span class="nav-icon">05</span> COMMUNICATIONS
           </li>
         </ul>
-        <div class="panel-footer">
+
+
+        <div class="lottie-globe-wrap"
+          style="width: 150px; margin: 0 auto; filter: drop-shadow(0 0 10px var(--stark-blue));">
+          <dotlottie-player src="Earth and Connections.json" background="transparent" speed="1" loop
+            autoplay></dotlottie-player>
+        </div>
+        <!-- <div class="panel-footer">
           <div class="alien-footer-text">⍙⟒ ⏃⍀⟒ ⋏⍓⏁ ⏃⌰⍜⋏⟒</div>
+        </div> -->
+
+
+        <div class="radio-module">
+          <div class="module-header">SIGNAL_INTERCEPTOR</div>
+
+          <div class="visualizer-container" id="visualizer">
+            <div class="v-bar"></div>
+            <div class="v-bar"></div>
+            <div class="v-bar"></div>
+            <div class="v-bar"></div>
+            <div class="v-bar"></div>
+            <div class="v-bar"></div>
+            <div class="v-bar"></div>
+            <div class="v-bar"></div>
+          </div>
+
+          <div class="station-selector-wrap">
+            <select id="station-dropdown" onchange="handleStationChange()">
+              <option value="" disabled selected>SELECT_FREQUENCY</option>
+              <optgroup label="INDIAN_UPLINK">
+                <option value="0">BOLLYWOOD_HITS</option>
+                <option value="1">RETRO_CLASSICS</option>
+                <option value="2">DESI_LOFI</option>
+              </optgroup>
+              <optgroup label="GLOBAL_FEED">
+                <option value="3">BBC_WORLD_SERVICE</option>
+                <option value="4">CAPITAL_FM</option>
+                <option value="5">KISS_FM</option>
+              </optgroup>
+              <option value="custom">-- MANUAL_INPUT --</option>
+            </select>
+          </div>
+
+          <div id="custom-url-area" style="display: none; margin-top: 10px;">
+            <input type="text" id="custom-url" placeholder="ENTER_STREAM_URL..." class="radio-input">
+            <button onclick="playCustomUrl()" class="radio-btn" style="width: 100%; margin-top: 5px;">LOAD_FREQ</button>
+          </div>
+
+          <div class="track-info">
+            <marquee id="track-name">READY_FOR_UPLINK...</marquee>
+          </div>
+
+          <button id="play-pause" class="radio-btn"
+            style="width: 100%; margin-top: 10px; border-color: var(--alien-gold); color: var(--alien-gold);">CONNECT</button>
+
+          <audio id="main-audio" preload="none"></audio>
         </div>
       </nav>
 
@@ -66,16 +120,16 @@
       </section>
 
       <aside class="side-panel right">
-        <div class="panel-header">DATA_ANALYSIS</div>
-      
-        <div class="stat-box">
+        <!-- <div class="panel-header">DATA_ANALYSIS</div> -->
+
+        <!-- <div class="stat-box">
           <label>CORE_STABILITY</label>
           <div class="bar-graph">
             <div class="bar-fill" style="width: 88%"></div>
           </div>
-        </div>
-      
-        <div class="panel-header" style="margin-top: 20px;">EXTERNAL_UPLINKS</div>
+        </div> -->
+
+        <div class="panel-header">EXTERNAL_UPLINKS</div>
         <div class="uplink-list">
           <a href="http://newdevpoint.in/" target="_blank" class="uplink-item">
             <span class="uplink-label">PRIMARY_NODE</span>
@@ -89,7 +143,8 @@
             <span class="uplink-label">NEURAL_PROJECT</span>
             <span class="uplink-url">AI_ENGINEER</span>
           </a>
-          <a href="https://github.com/developer-shubham101/microservices-architecture" target="_blank" class="uplink-item">
+          <a href="https://github.com/developer-shubham101/microservices-architecture" target="_blank"
+            class="uplink-item">
             <span class="uplink-label">ARCH_PROTOCOL</span>
             <span class="uplink-url">MICROSERVICES</span>
           </a>
@@ -98,7 +153,7 @@
             <span class="uplink-url">SPRING_BOOT_SAMPLE</span>
           </a>
         </div>
-      
+
         <div class="intercept-log" id="intercept-log" style="margin-top: auto;">
           <p class="log-entry">> INCOMING SIGNAL DETECTED...</p>
         </div>
@@ -107,7 +162,7 @@
 
     <footer class="hud-bottom">
       <div class="control-help">PRESS [M] TO TOGGLE AUDIO • [SPACE] TO RE-SCAN</div>
-      <div class="agency-stamp">STARK_INDUSTRIES // GLOBAL_DEFENSE</div>
+      <div class="agency-stamp">S.H.A.R.M.A. // GLOBAL_DEFENSE</div>
     </footer>
   </div>
 
@@ -125,6 +180,8 @@
     </div>
   </div>
   <script src="script.js"></script>
+  <script src="geo-enverment.js"></script>
+  <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
 </body>
 
 </html>
