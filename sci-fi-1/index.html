@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHARMA_S | LEAD_ENGINEER_DOSSIER</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap"
+    rel="stylesheet">
+
+    <link rel="stylesheet" href="themes.css">
+
+  <link rel="stylesheet" href="style.css">
+ 
+</head>
+
+<body>
+
+  <div id="boot-screen">
+    <div id="boot-log"></div>
+  </div>
+
+  <div id="main-interface" style="display: none;">
+    <div class="scanline"></div>
+
+    <div class="container-fluid min-vh-100 p-0">
+      <header class="hud-header px-4 d-flex justify-content-between align-items-center">
+        <h1 class="logo-text glitch" data-text="PERSONNEL_DOSSIER: SHARMA_S">PERSONNEL_DOSSIER: SHARMA_S</h1>
+
+        <div class="d-flex align-items-center gap-3">
+          <button id="theme-toggle-btn" class="nav-hex" onclick="toggleProtocol()">
+            PROTOCOL: EMERALD
+          </button>
+          <div class="status-indicator">CLEARANCE_LEVEL: TOP_SECRET</div>
+        </div>
+      </header>
+
+      <div class="row g-0">
+        <div class="col-lg-5">
+          <div class="hud-frame">
+            <div class="frame-label">DATA_ACCESS_ARCHIVE</div>
+
+            <div class="protocol-nav mb-4 mt-2">
+              <button class="nav-hex active" onclick="updateSelection('summary', this)">OVERVIEW</button>
+              <button class="nav-hex" onclick="updateSelection('skills', this)">ARSENAL</button>
+              <button class="nav-hex" onclick="updateSelection('exp', this)">SERVICE</button>
+              <button class="nav-hex" onclick="updateSelection('projects', this)">OPS</button>
+              <button class="nav-hex" onclick="updateSelection('contact', this)">CONTACT</button>
+            </div>
+
+            <div class="brief-container">
+              <div id="brief-content"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-7">
+          <div class="hud-frame">
+            <div class="frame-label">DETAILED_VISUALIZER</div>
+            <div id="detailed-stream" class="detailed-view-area">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
