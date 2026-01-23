@@ -1,0 +1,46 @@
+[
+  {
+    "title": "Japfa Best",
+    "category": "flutter",
+    "platform": "Flutter | Spring Boot | Microservices",
+    "description": "High-quality meat & seafood delivery app with real-time tracking and RazorPay integration.",
+    "tags": [
+      "#RestAPI",
+      "#KeyClock",
+      "#CleverTap"
+    ]
+  },
+  {
+    "title": "GroHood",
+    "category": "react-native",
+    "platform": "React Native | TypeScript | Redux",
+    "description": "Complex 4-module e-commerce ecosystem (Customer, Inventory, Delivery, and Quality Check).",
+    "tags": [
+      "#CodePush",
+      "#CashFree",
+      "#Redux"
+    ]
+  },
+  {
+    "title": "Biblingo",
+    "category": "macos",
+    "platform": "macOS (Swift) | SQLite",
+    "description": "Interactive language learning desktop app for Hebrew and Greek.",
+    "tags": [
+      "#Swift",
+      "#SQLite",
+      "#DesktopApp"
+    ]
+  },
+  {
+    "title": "Biblingo",
+    "category": "macos",
+    "platform": "macOS (Swift) | SQLite",
+    "description": "Interactive language learning desktop app for Hebrew and Greek.",
+    "tags": [
+      "#Swift",
+      "#SQLite",
+      "#DesktopApp"
+    ]
+  }
+]
