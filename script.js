@@ -417,6 +417,8 @@ function revealContent($el, content) {
   }
 }
 
+
+
 function revealTypewriter($el, content) {
   const totalTime = Math.min(
     REVEAL_MAX,
@@ -530,3 +532,45 @@ function revealEncrypted($el, content) {
 
 
 $(window).on('load', runBootSequence);
+
+
+
+
+
+
+/* =========================
+   SCI-FI BACKGROUND AUDIO
+========================= */
+
+let bgAudio;
+let audioEnabled = false;
+
+function initBackgroundAudio() {
+  if (bgAudio) return;
+
+  bgAudio = new Audio("assets/audio/ambient.mp3");
+  bgAudio.loop = true;
+  bgAudio.volume = 0.12; // subtle
+  bgAudio.play().then(() => {
+    audioEnabled = true;
+  }).catch(() => {
+    // autoplay blocked — user interaction required
+  });
+}
+
+/* Start audio on first interaction */
+document.addEventListener("click", initBackgroundAudio, { once: true });
+document.addEventListener("keydown", initBackgroundAudio, { once: true });
+
+/* Toggle audio with M key */
+document.addEventListener("keydown", (e) => {
+  if (e.key.toLowerCase() === "m" && bgAudio) {
+    if (audioEnabled) {
+      bgAudio.pause();
+      audioEnabled = false;
+    } else {
+      bgAudio.play();
+      audioEnabled = true;
+    }
+  }
+});
