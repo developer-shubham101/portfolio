@@ -138,3 +138,60 @@ body {
   from { opacity: 0; transform: translateX(-10px); }
   to { opacity: 1; transform: translateX(0); }
 }
+
+
+
+
+/* --- SCI-FI CUSTOM SCROLLBAR --- */
+
+/* 1. Ensure the container handles overflow */
+.detailed-view-area {
+  height: 480px;
+  overflow-y: auto; /* Enables vertical scrolling */
+  overflow-x: hidden;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px inset rgba(0, 255, 65, 0.1);
+  position: relative;
+}
+
+/* 2. Style the scrollbar width */
+.detailed-view-area::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* 3. The Track (the background of the scrollbar) */
+.detailed-view-area::-webkit-scrollbar-track {
+  background: rgba(0, 255, 65, 0.05);
+  border-left: 1px solid rgba(0, 255, 65, 0.1);
+}
+
+/* 4. The Thumb (the moving part) */
+.detailed-view-area::-webkit-scrollbar-thumb {
+  background: var(--green);
+  /* Creates a glowing effect on the scroll handle */
+  box-shadow: 0 0 10px var(--green);
+  border-radius: 0;
+}
+
+/* 5. Hover effect for the thumb */
+.detailed-view-area::-webkit-scrollbar-thumb:hover {
+  background: #ffffff;
+  box-shadow: 0 0 15px #ffffff;
+}
+
+/* For Firefox Support */
+.detailed-view-area {
+  scrollbar-width: thin;
+  scrollbar-color: var(--green) transparent;
+}
+
+
+
+
+.detailed-view-area {
+  background-image: radial-gradient(var(--green) 0.5px, transparent 0.5px);
+  background-size: 30px 30px;
+  background-attachment: local; /* This makes the dots move with the text */
+  opacity: 0.9;
+}
