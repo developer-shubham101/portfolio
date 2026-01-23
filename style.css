@@ -1,4 +1,3 @@
-/* ROOT VARIABLES & THEMES */
 :root {
   --green: #00ff41;
   --dark-green: #003b00;
@@ -30,50 +29,27 @@ body {
   top: 0; left: 0;
   width: 100vw; height: 100vh;
   background: #000;
-  color: #00ff41; /* Keep boot green for classic feel */
+  color: #00ff41;
   z-index: 9999;
   padding: 50px;
-  overflow: hidden;
 }
 
-.boot-line {
-  margin-bottom: 5px;
-  opacity: 0;
-  animation: line-reveal 0.1s forwards;
-}
-
+.boot-line { margin-bottom: 5px; opacity: 0; animation: line-reveal 0.1s forwards; }
 @keyframes line-reveal { to { opacity: 1; } }
 
-/* MAIN INTERFACE REVEAL */
-#main-interface {
-  animation: interface-reveal 1.5s ease-out;
-}
-
+#main-interface { animation: interface-reveal 1.2s ease-out; }
 @keyframes interface-reveal {
-  from { opacity: 0; transform: scale(1.02); filter: blur(10px); }
-  to { opacity: 1; transform: scale(1); filter: blur(0); }
+  from { opacity: 0; filter: blur(10px); }
+  to { opacity: 1; filter: blur(0); }
 }
 
-/* SCANLINE */
-.scanline {
-  width: 100%; height: 100px;
-  background: linear-gradient(0deg, transparent, rgba(0, 255, 65, 0.05), transparent);
-  position: fixed; top: -100px; left: 0;
-  z-index: 100; pointer-events: none;
-  animation: scan 4s linear infinite;
-}
-
-@keyframes scan { 0% { top: -100px; } 100% { top: 100vh; } }
-
-/* HUD HEADER & GLITCH */
+/* HUD ELEMENTS */
 .hud-header {
   height: 70px;
   border-bottom: 1px solid rgba(0, 255, 65, 0.3);
   background: rgba(0, 0, 0, 0.8);
   font-family: "Orbitron";
 }
-
-.logo-text { font-size: 1.5rem; letter-spacing: 5px; }
 
 .glitch { position: relative; }
 .glitch::before, .glitch::after {
@@ -92,16 +68,9 @@ body {
   animation: glitch-anim2 5s infinite linear alternate-reverse;
 }
 
-@keyframes glitch-anim {
-  0% { clip: rect(31px, 9999px, 94px, 0); }
-  100% { clip: rect(9px, 9999px, 67px, 0); }
-}
-@keyframes glitch-anim2 {
-  0% { clip: rect(65px, 9999px, 100px, 0); }
-  100% { clip: rect(78px, 9999px, 5px, 0); }
-}
+@keyframes glitch-anim { 0% { clip: rect(31px, 9999px, 94px, 0); } 100% { clip: rect(9px, 9999px, 67px, 0); } }
+@keyframes glitch-anim2 { 0% { clip: rect(65px, 9999px, 100px, 0); } 100% { clip: rect(78px, 9999px, 5px, 0); } }
 
-/* FRAMES & BUTTONS */
 .hud-frame {
   margin: 20px; padding: 30px;
   background: var(--glass);
@@ -131,17 +100,41 @@ body {
   background: rgba(0, 0, 0, 0.4); border: 1px inset rgba(0, 255, 65, 0.1);
 }
 
-.hud-label { color: var(--red); font-weight: bold; font-size: 0.8rem; display: block; margin-top: 10px; }
+.detailed-view-area a { color: var(--green); text-decoration: none; border-bottom: 1px dashed var(--green); }
 
 .stark-btn {
   width: 100%; padding: 12px;
   background: var(--dark-green); color: var(--green);
   border: 1px solid var(--green); font-family: "Orbitron";
   clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%);
-  transition: 0.3s; cursor: pointer;
+  cursor: pointer; transition: 0.3s;
 }
 
-.stark-btn:hover { background: var(--green); color: black; box-shadow: 0 0 15px var(--green); }
+.stark-btn:hover { background: var(--green); color: #000; box-shadow: 0 0 15px var(--green); }
+
+.hud-label { color: var(--red); font-weight: bold; font-size: 0.8rem; display: block; margin-top: 10px; }
 
 .data-flash { animation: flash 0.4s ease-out; }
 @keyframes flash { 0% { background: rgba(0, 255, 65, 0.3); } 100% { background: transparent; } }
+
+.scanline {
+  width: 100%; height: 100px;
+  background: linear-gradient(0deg, transparent, rgba(0, 255, 65, 0.05), transparent);
+  position: fixed; top: -100px; left: 0; z-index: 100; pointer-events: none;
+  animation: scan 4s linear infinite;
+}
+@keyframes scan { 0% { top: -100px; } 100% { top: 100vh; } }
+
+
+
+.brief-text {
+  border-left: 2px solid var(--green);
+  padding-left: 15px;
+  font-size: 1.1rem;
+  animation: brief-reveal 0.5s ease-out;
+}
+
+@keyframes brief-reveal {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
