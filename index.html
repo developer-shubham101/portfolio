@@ -67,19 +67,39 @@
 
       <aside class="side-panel right">
         <div class="panel-header">DATA_ANALYSIS</div>
+      
         <div class="stat-box">
           <label>CORE_STABILITY</label>
           <div class="bar-graph">
             <div class="bar-fill" style="width: 88%"></div>
           </div>
         </div>
-        <div class="stat-box">
-          <label>DECODING_RATE</label>
-          <div class="bar-graph">
-            <div class="bar-fill" style="width: 42%"></div>
-          </div>
+      
+        <div class="panel-header" style="margin-top: 20px;">EXTERNAL_UPLINKS</div>
+        <div class="uplink-list">
+          <a href="http://newdevpoint.in/" target="_blank" class="uplink-item">
+            <span class="uplink-label">PRIMARY_NODE</span>
+            <span class="uplink-url">NEWDEVPOINT.IN</span>
+          </a>
+          <a href="https://qrcode.newdevpoint.in/" target="_blank" class="uplink-item">
+            <span class="uplink-label">CRYPTO_GEN_TOOL</span>
+            <span class="uplink-url">QR_GENERATOR</span>
+          </a>
+          <a href="https://github.com/developer-shubham101/ai_engineer" target="_blank" class="uplink-item">
+            <span class="uplink-label">NEURAL_PROJECT</span>
+            <span class="uplink-url">AI_ENGINEER</span>
+          </a>
+          <a href="https://github.com/developer-shubham101/microservices-architecture" target="_blank" class="uplink-item">
+            <span class="uplink-label">ARCH_PROTOCOL</span>
+            <span class="uplink-url">MICROSERVICES</span>
+          </a>
+          <a href="https://github.com/developer-shubham101/SpringBootSample" target="_blank" class="uplink-item">
+            <span class="uplink-label">BACKEND_CORE</span>
+            <span class="uplink-url">SPRING_BOOT_SAMPLE</span>
+          </a>
         </div>
-        <div class="intercept-log" id="intercept-log">
+      
+        <div class="intercept-log" id="intercept-log" style="margin-top: auto;">
           <p class="log-entry">> INCOMING SIGNAL DETECTED...</p>
         </div>
       </aside>
@@ -91,6 +111,19 @@
     </footer>
   </div>
 
+  <div id="data-modal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="modal-title">ENCRYPTED_DETAILS_O7</span>
+        <button class="close-btn" onclick="closeModal()">[X] CLOSE</button>
+      </div>
+      <div class="modal-body" id="modal-body-content">
+      </div>
+      <div class="modal-footer">
+        <span class="alien-glyph">⍙⟒ ⏃⍀⟒ ⋏⍓⏁</span> // SECURE_ACCESS_GRANTED
+      </div>
+    </div>
+  </div>
   <script src="script.js"></script>
 </body>
 
