@@ -1,7 +1,43 @@
 const intelArchive = {
+  card: {
+    title: "Subject: SHARMA_SHARMA",
+    body: `<div class="scifi-identity-card">
+          <div class="id-photo-sector">
+            <div class="photo-frame">
+              <img src="image3A6317_Glitch.jpg" alt="Subject_S" class="subject-img">
+              <div class="photo-glitch-overlay"></div>
+              <div class="corner-bracket top-left"></div>
+              <div class="corner-bracket bottom-right"></div>
+            </div>
+            <div class="status-bar">
+              <span class="status-dot"></span> SUBJECT_ACTIVE
+            </div>
+          </div>
+        
+          <div class="id-info-sector">
+            <div class="info-row">
+              <span class="info-label">DESIGNATION:</span>
+              <span class="info-value">SR_TECHNICAL_LEAD</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">CLEARANCE:</span>
+              <span class="info-value">LEVEL_09</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">EXPERIENCE:</span>
+              <span class="info-value">08_YRS_PLUS</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">SPECIALIZATION:</span>
+              <span class="info-value">DISTRIBUTED_SYSTEMS</span>
+            </div>
+            <div class="id-barcode">|||| || | ||||| | |||</div>
+          </div>
+        </div>`
+  },
   profile: {
-    title: "Subject: SHARMA_S",
-    body: "Technical Lead with 8+ years experience. Expert in high-load distributed systems and reactive architectures. Currently assigned to enterprise-level insurance data platforms."
+    title: "Subject: S.S.",
+    body: `Technical Lead with 8+ years experience. Expert in high-load distributed systems and reactive architectures. Currently assigned to enterprise-level insurance data platforms.`
   },
   // Updated entry in script.js
   arsenal: {
@@ -105,7 +141,7 @@ const intelArchive = {
                 
                 <div class="comm-channel">
                     <label>SECURE_MAIL</label>
-                    <div class="channel-value">S.SHARMA@STARK_MAIL.NET</div>
+                    <div class="channel-value">SK.SHUBHAMSHARMA95@GMAIL.COM</div>
                     <div class="channel-action">RSA_KEY: ACTIVE</div>
                 </div>
 
@@ -238,7 +274,7 @@ setInterval(() => {
 
 
 function init() {
-  switchNode('profile');
+  switchNode('card');
   generateXenonStream();
   setInterval(updateClock, 1000);
   // setInterval(addInterceptLog, 5000);
@@ -491,3 +527,40 @@ function openArsenalDetail(key) {
 
   modal.style.display = 'flex';
 }
+
+
+
+
+
+
+
+
+
+
+// --- SUBJECT_VISUAL_CORRUPTION_PROTOCOL ---
+function triggerPhotoGlitch() {
+  setInterval(() => {
+    // Target the image within your new identity card
+    const photo = document.querySelector('.subject-img');
+    
+    if (!photo) return; // Silent skip if card isn't currently rendered
+
+    // Random chance for a visual "hiccup"
+    if (Math.random() > 0.5) {
+      // 1. INITIATE CORRUPTION
+      photo.style.filter = "invert(100%) hue-rotate(180deg) brightness(1.5) contrast(2)";
+      photo.style.transform = "translateX(2px) skewX(5deg)";
+      // 2. CALCULATE RANDOM RECOVERY TIME (100ms to 2000ms)
+      const recoveryTime = Math.floor(Math.random() * (2000 - 100 + 1) + 100);
+
+      setTimeout(() => {
+        // Revert to your base "Stark" theme style
+        photo.style.filter = "grayscale(100%) contrast(120%) brightness(80%)";
+        photo.style.transform = "translateX(0) skewX(0)";
+      }, recoveryTime);  
+    }
+  }, 2500);
+}
+
+// Initialize the observer
+triggerPhotoGlitch();
