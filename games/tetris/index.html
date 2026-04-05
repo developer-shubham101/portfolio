@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>S.H.A.R.M.A. // TETRIC_PROTOCOL</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;700&family=Exo+2:wght@300;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="game-header">
+    <a href="../../index.html" class="back-btn">◄ BASE</a>
+    <div class="game-title"><span class="bracket">[</span> TETRIC_PROTOCOL <span class="bracket">]</span></div>
+    <div class="header-status"><span class="pulse-dot"></span> ACTIVE</div>
+  </header>
+
+  <!-- MIDDLE: canvas + right panel -->
+  <div class="mid-row">
+
+    <!-- CANVAS -->
+    <div class="game-area">
+      <canvas id="t-board"></canvas>
+    </div>
+
+    <!-- RIGHT PANEL: stats + next + action buttons -->
+    <div class="right-panel">
+      <div class="panel-block">
+        <div class="stat-row"><span class="t-label">SCORE</span><span class="t-value" id="t-score">0</span></div>
+        <div class="stat-row"><span class="t-label">BEST</span><span class="t-value t-best" id="t-best">0</span></div>
+        <div class="stat-row"><span class="t-label">LEVEL</span><span class="t-value" id="t-level">1</span></div>
+        <div class="stat-row"><span class="t-label">LINES</span><span class="t-value" id="t-lines">0</span></div>
+      </div>
+
+      <div class="panel-block">
+        <span class="t-label">NEXT</span>
+        <canvas id="t-next" width="80" height="80"></canvas>
+      </div>
+
+      <div class="panel-block action-btns">
+        <button class="t-btn" id="t-start">START</button>
+        <button class="t-btn" id="t-pause">PAUSE</button>
+        <button class="t-btn accent" id="t-drop">DROP ▼▼</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM: console controller -->
+  <div class="dpad-bar">
+
+    <!-- LEFT: cross d-pad -->
+    <div class="cross-dpad">
+      <div class="cross-row">
+        <button class="t-btn cross-btn" id="t-rotate">↑</button>
+      </div>
+      <div class="cross-row">
+        <button class="t-btn cross-btn" id="t-left">◄</button>
+        <button class="t-btn cross-btn cross-center"></button>
+        <button class="t-btn cross-btn" id="t-right">►</button>
+      </div>
+      <div class="cross-row">
+        <button class="t-btn cross-btn" id="t-down">▼</button>
+      </div>
+    </div>
+
+    <!-- CENTER: start/pause -->
+    <div class="center-btns">
+      <button class="t-btn pill-btn" id="t-start">START</button>
+      <button class="t-btn pill-btn" id="t-pause">SELECT</button>
+    </div>
+
+    <!-- RIGHT: A/B buttons -->
+    <div class="ab-btns">
+      <div class="ab-row">
+        <button class="t-btn ab-btn ab-b" id="t-drop">B</button>
+        <button class="t-btn ab-btn ab-a" id="t-rotate-ab">A</button>
+      </div>
+      <div class="ab-labels">
+        <span>DROP</span>
+        <span>ROTATE</span>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="tetris.js"></script>
+</body>
+</html>

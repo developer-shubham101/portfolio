@@ -123,7 +123,40 @@ const intelArchive = {
       </div>
   `
   }, 
-  // Updated entry in script.js
+  tetris: {
+    title: "TACTICAL_GAMES // ARCADE_VAULT",
+    body: `
+      <div class="games-vault">
+        <div class="vault-header">SELECT_SIMULATION</div>
+        <div class="games-grid">
+          <a href="games/tetris/index.html" class="game-card">
+            <div class="game-card-icon">⬛</div>
+            <div class="game-card-name">TETRIC_PROTOCOL</div>
+            <div class="game-card-meta">BLOCK_STACKING // ACTIVE</div>
+            <div class="game-card-status online">● ONLINE</div>
+          </a>
+          <div class="game-card locked">
+            <div class="game-card-icon">🐍</div>
+            <div class="game-card-name">SERPENT_MATRIX</div>
+            <div class="game-card-meta">SNAKE_PROTOCOL // PENDING</div>
+            <div class="game-card-status offline">◌ COMING_SOON</div>
+          </div>
+          <div class="game-card locked">
+            <div class="game-card-icon">👾</div>
+            <div class="game-card-name">XENON_INVADERS</div>
+            <div class="game-card-meta">SPACE_COMBAT // PENDING</div>
+            <div class="game-card-status offline">◌ COMING_SOON</div>
+          </div>
+          <div class="game-card locked">
+            <div class="game-card-icon">🧱</div>
+            <div class="game-card-name">BREACH_BREAKER</div>
+            <div class="game-card-meta">BREAKOUT_SIM // PENDING</div>
+            <div class="game-card-status offline">◌ COMING_SOON</div>
+          </div>
+        </div>
+      </div>
+    `
+  },
   contact: {
     title: "COMM_UPLINK",
     body: `
@@ -564,3 +597,237 @@ function triggerPhotoGlitch() {
 
 // Initialize the observer
 triggerPhotoGlitch();
+
+
+// ============ TETRIC_PROTOCOL ENGINE ============
+(function () {
+  const COLS = 10, ROWS = 20, BLOCK = 20;
+  const COLORS = ['', '#00d4ff', '#ffcc00', '#00ff41', '#ff3b3b', '#bf5fff', '#ff8c00', '#00ffff'];
+  const PIECES = [
+    null,
+    [[1,1,1,1]],                          // I
+    [[2,2],[2,2]],                         // O
+    [[0,3,0],[3,3,3]],                     // T
+    [[4,0],[4,0],[4,4]],                   // L
+    [[0,5],[0,5],[5,5]],                   // J
+    [[6,6,0],[0,6,6]],                     // S
+    [[0,7,7],[7,7,0]]                      // Z
+  ];
+
+  let board, piece, pieceX, pieceY, pieceType, nextType;
+  let score, level, lines, running, paused, raf, lastTime, dropInterval;
+
+  function newBoard() {
+    return Array.from({length: ROWS}, () => new Array(COLS).fill(0));
+  }
+
+  function randomType() { return Math.floor(Math.random() * 7) + 1; }
+
+  function getShape(type) { return PIECES[type].map(r => [...r]); }
+
+  function rotate(shape) {
+    return shape[0].map((_, i) => shape.map(r => r[i]).reverse());
+  }
+
+  function valid(b, s, x, y) {
+    for (let r = 0; r < s.length; r++)
+      for (let c = 0; c < s[r].length; c++)
+        if (s[r][c]) {
+          const nr = r + y, nc = c + x;
+          if (nr < 0 || nr >= ROWS || nc < 0 || nc >= COLS || b[nr][nc]) return false;
+        }
+    return true;
+  }
+
+  function lock() {
+    const shape = getShape(pieceType);
+    for (let r = 0; r < shape.length; r++)
+      for (let c = 0; c < shape[r].length; c++)
+        if (shape[r][c]) board[r + pieceY][c + pieceX] = pieceType;
+    clearLines();
+    spawnPiece();
+  }
+
+  function clearLines() {
+    let cleared = 0;
+    for (let r = ROWS - 1; r >= 0; r--) {
+      if (board[r].every(c => c)) {
+        board.splice(r, 1);
+        board.unshift(new Array(COLS).fill(0));
+        cleared++;
+        r++;
+      }
+    }
+    if (cleared) {
+      const pts = [0, 100, 300, 500, 800];
+      score += (pts[cleared] || 800) * level;
+      lines += cleared;
+      level = Math.floor(lines / 10) + 1;
+      dropInterval = Math.max(100, 1000 - (level - 1) * 90);
+      updateHUD();
+    }
+  }
+
+  function spawnPiece() {
+    pieceType = nextType;
+    nextType = randomType();
+    pieceX = Math.floor(COLS / 2) - Math.floor(getShape(pieceType)[0].length / 2);
+    pieceY = 0;
+    if (!valid(board, getShape(pieceType), pieceX, pieceY)) {
+      gameOver();
+    }
+    drawNext();
+  }
+
+  function gameOver() {
+    running = false;
+    const canvas = document.getElementById('t-board');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'rgba(0,0,0,0.7)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#ff3b3b';
+    ctx.font = 'bold 18px Rajdhani';
+    ctx.textAlign = 'center';
+    ctx.fillText('GAME OVER', canvas.width / 2, canvas.height / 2 - 10);
+    ctx.fillStyle = '#ffcc00';
+    ctx.font = '12px Rajdhani';
+    ctx.fillText('SCORE: ' + score, canvas.width / 2, canvas.height / 2 + 15);
+  }
+
+  function updateHUD() {
+    const s = document.getElementById('t-score');
+    const l = document.getElementById('t-level');
+    const ln = document.getElementById('t-lines');
+    if (s) s.textContent = score;
+    if (l) l.textContent = level;
+    if (ln) ln.textContent = lines;
+  }
+
+  function drawBoard(ctx) {
+    ctx.fillStyle = '#05080a';
+    ctx.fillRect(0, 0, COLS * BLOCK, ROWS * BLOCK);
+    // grid
+    ctx.strokeStyle = 'rgba(0,212,255,0.05)';
+    ctx.lineWidth = 0.5;
+    for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
+      ctx.strokeRect(c * BLOCK, r * BLOCK, BLOCK, BLOCK);
+    }
+    // locked cells
+    for (let r = 0; r < ROWS; r++)
+      for (let c = 0; c < COLS; c++)
+        if (board[r][c]) drawBlock(ctx, c, r, board[r][c]);
+  }
+
+  function drawBlock(ctx, c, r, type) {
+    const color = COLORS[type];
+    ctx.fillStyle = color;
+    ctx.shadowColor = color;
+    ctx.shadowBlur = 6;
+    ctx.fillRect(c * BLOCK + 1, r * BLOCK + 1, BLOCK - 2, BLOCK - 2);
+    ctx.shadowBlur = 0;
+  }
+
+  function drawPiece(ctx) {
+    const shape = getShape(pieceType);
+    // ghost
+    let ghostY = pieceY;
+    while (valid(board, shape, pieceX, ghostY + 1)) ghostY++;
+    for (let r = 0; r < shape.length; r++)
+      for (let c = 0; c < shape[r].length; c++)
+        if (shape[r][c]) {
+          ctx.fillStyle = 'rgba(0,212,255,0.15)';
+          ctx.fillRect((pieceX + c) * BLOCK + 1, (ghostY + r) * BLOCK + 1, BLOCK - 2, BLOCK - 2);
+        }
+    // actual
+    for (let r = 0; r < shape.length; r++)
+      for (let c = 0; c < shape[r].length; c++)
+        if (shape[r][c]) drawBlock(ctx, pieceX + c, pieceY + r, pieceType);
+  }
+
+  function drawNext() {
+    const canvas = document.getElementById('t-next');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#05080a';
+    ctx.fillRect(0, 0, 80, 80);
+    const shape = getShape(nextType);
+    const offX = Math.floor((4 - shape[0].length) / 2);
+    const offY = Math.floor((4 - shape.length) / 2);
+    for (let r = 0; r < shape.length; r++)
+      for (let c = 0; c < shape[r].length; c++)
+        if (shape[r][c]) drawBlock(ctx, offX + c, offY + r, nextType);
+  }
+
+  function loop(ts) {
+    if (!running || paused) return;
+    const canvas = document.getElementById('t-board');
+    if (!canvas) { running = false; return; }
+    const ctx = canvas.getContext('2d');
+    if (ts - lastTime > dropInterval) {
+      if (valid(board, getShape(pieceType), pieceX, pieceY + 1)) pieceY++;
+      else lock();
+      lastTime = ts;
+    }
+    drawBoard(ctx);
+    drawPiece(ctx);
+    raf = requestAnimationFrame(loop);
+  }
+
+  function startGame() {
+    board = newBoard();
+    score = 0; level = 1; lines = 0; dropInterval = 1000;
+    nextType = randomType();
+    spawnPiece();
+    updateHUD();
+    running = true; paused = false;
+    lastTime = 0;
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(loop);
+  }
+
+  function bindControls() {
+    document.getElementById('t-start').onclick = startGame;
+    document.getElementById('t-pause').onclick = () => {
+      if (!running) return;
+      paused = !paused;
+      document.getElementById('t-pause').textContent = paused ? 'RESUME' : 'PAUSE';
+      if (!paused) { lastTime = 0; raf = requestAnimationFrame(loop); }
+    };
+    document.getElementById('t-left').onclick = () => { if (running && !paused && valid(board, getShape(pieceType), pieceX - 1, pieceY)) pieceX--; };
+    document.getElementById('t-right').onclick = () => { if (running && !paused && valid(board, getShape(pieceType), pieceX + 1, pieceY)) pieceX++; };
+    document.getElementById('t-down').onclick = () => { if (running && !paused && valid(board, getShape(pieceType), pieceX, pieceY + 1)) { pieceY++; score++; updateHUD(); } };
+    document.getElementById('t-rotate').onclick = () => {
+      if (!running || paused) return;
+      const rot = rotate(getShape(pieceType));
+      if (valid(board, rot, pieceX, pieceY)) { PIECES[pieceType] = rot; }
+    };
+    document.getElementById('t-drop').onclick = () => {
+      if (!running || paused) return;
+      while (valid(board, getShape(pieceType), pieceX, pieceY + 1)) { pieceY++; score += 2; }
+      lock(); updateHUD();
+    };
+  }
+
+  // Keyboard
+  document.addEventListener('keydown', (e) => {
+    if (!running || paused) return;
+    if (!document.getElementById('t-board')) return;
+    if (e.code === 'ArrowLeft') { if (valid(board, getShape(pieceType), pieceX - 1, pieceY)) pieceX--; }
+    else if (e.code === 'ArrowRight') { if (valid(board, getShape(pieceType), pieceX + 1, pieceY)) pieceX++; }
+    else if (e.code === 'ArrowDown') { if (valid(board, getShape(pieceType), pieceX, pieceY + 1)) { pieceY++; score++; updateHUD(); } }
+    else if (e.code === 'ArrowUp') { const rot = rotate(getShape(pieceType)); if (valid(board, rot, pieceX, pieceY)) PIECES[pieceType] = rot; }
+    else if (e.code === 'Space') { e.preventDefault(); while (valid(board, getShape(pieceType), pieceX, pieceY + 1)) { pieceY++; score += 2; } lock(); updateHUD(); }
+  });
+
+  // Hook into switchNode to init controls after DOM renders
+  const _orig = window.switchNode;
+  window.switchNode = function (nodeKey) {
+    _orig(nodeKey);
+    if (nodeKey === 'tetris') {
+      setTimeout(() => {
+        if (document.getElementById('t-start')) bindControls();
+      }, 500);
+    }
+  };
+})();

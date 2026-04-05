@@ -1122,3 +1122,185 @@ p {
     0%, 100% { opacity: 1; filter: brightness(1); }
     50% { opacity: 0.3; filter: brightness(1.5); }
 }
+
+
+/* ============ TETRIC_PROTOCOL STYLES ============ */
+.tetris-wrapper {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+#t-board {
+  border: 1px solid var(--stark-blue);
+  box-shadow: 0 0 20px var(--stark-blue-dim);
+  display: block;
+}
+
+.tetris-hud {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 90px;
+}
+
+.tetris-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.t-label {
+  font-size: 0.6rem;
+  color: var(--alien-gold);
+  letter-spacing: 2px;
+}
+
+.t-value {
+  font-family: var(--font-header);
+  font-size: 1.2rem;
+  color: var(--stark-blue);
+  text-shadow: 0 0 8px var(--stark-blue);
+}
+
+#t-next {
+  border: 1px solid var(--stark-blue-dim);
+  display: block;
+}
+
+.tetris-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 120px;
+}
+
+.t-ctrl-row {
+  display: flex;
+  gap: 6px;
+}
+
+.t-btn {
+  background: transparent;
+  border: 1px solid var(--stark-blue);
+  color: var(--stark-blue);
+  font-family: var(--font-header);
+  font-size: 0.65rem;
+  padding: 5px 10px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: 0.2s;
+  flex: 1;
+}
+
+.t-btn:hover {
+  background: var(--stark-blue);
+  color: var(--bg-dark);
+  box-shadow: 0 0 10px var(--stark-blue);
+}
+
+.t-arrow {
+  padding: 5px;
+  font-size: 0.8rem;
+}
+
+.t-hint {
+  font-size: 0.55rem;
+  color: rgba(0, 212, 255, 0.4);
+  line-height: 1.5;
+  letter-spacing: 0.5px;
+}
+
+.t-best {
+  color: var(--alien-gold);
+}
+
+.t-new-best {
+  animation: newBestFlash 1s ease-out;
+}
+
+@keyframes newBestFlash {
+  0%   { color: #fff; transform: scale(1.4); }
+  50%  { color: var(--alien-gold); }
+  100% { color: var(--alien-gold); transform: scale(1); }
+}
+
+#t-board { touch-action: none; cursor: pointer; }
+
+/* ============ ARCADE_VAULT STYLES ============ */
+.games-vault {
+  margin-top: 10px;
+}
+
+.vault-header {
+  font-size: 0.6rem;
+  color: var(--alien-gold);
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--stark-blue-dim);
+  padding-bottom: 8px;
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.game-card {
+  background: rgba(0, 212, 255, 0.03);
+  border: 1px solid var(--stark-blue-dim);
+  padding: 18px 14px;
+  text-decoration: none;
+  color: var(--shield-white);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  clip-path: polygon(0 0, 100% 0, 100% 88%, 92% 100%, 0 100%);
+  transition: 0.3s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.game-card:not(.locked):hover {
+  background: rgba(0, 212, 255, 0.08);
+  border-color: var(--stark-blue);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 212, 255, 0.1);
+}
+
+.game-card.locked {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: grayscale(60%);
+}
+
+.game-card-icon {
+  font-size: 1.6rem;
+  margin-bottom: 4px;
+}
+
+.game-card-name {
+  font-family: var(--font-header);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--shield-white);
+}
+
+.game-card-meta {
+  font-size: 0.6rem;
+  color: var(--stark-blue);
+  letter-spacing: 1px;
+}
+
+.game-card-status {
+  font-size: 0.58rem;
+  font-family: "Exo 2", sans-serif;
+  margin-top: 4px;
+  letter-spacing: 1px;
+}
+
+.game-card-status.online  { color: #00ff41; }
+.game-card-status.offline { color: rgba(255,255,255,0.3); }

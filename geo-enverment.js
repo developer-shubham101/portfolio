@@ -23,10 +23,10 @@ async function fetchIntel(lat = 26.91, lon = 75.78, forceRefresh = false) {
 
   // 2. Perform fresh API calls (using your existing endpoints)
   try {
-    const [weather, location, iss] = await Promise.all([
+    const [weather, location/* , iss */] = await Promise.all([
       fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`).then(res => res.json()),
       fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`).then(res => res.json()),
-      fetch('http://api.open-notify.org/iss-now.json').then(res => res.json())
+      // fetch('http://api.open-notify.org/iss-now.json').then(res => res.json())
     ]);
 
     const intelPayload = {
