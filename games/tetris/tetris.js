@@ -347,41 +347,94 @@
     }, { passive: false });
   }
 
+  // ── hold-to-repeat: fires immediately on press, repeats while held ──
+  function bindHold(id, action, delay, interval) {
+    delay    = delay    || 180;
+    interval = interval || 80;
+    const el = document.getElementById(id);
+    if (!el) return;
+    let holdTimer = null, repeatTimer = null;
+
+    function start(e) {
+      e.preventDefault();
+      action();
+      holdTimer = setTimeout(() => { repeatTimer = setInterval(action, interval); }, delay);
+    }
+    function stop(e) {
+      e.preventDefault();
+      clearTimeout(holdTimer); clearInterval(repeatTimer);
+      holdTimer = repeatTimer = null;
+    }
+
+    // mouse
+    el.addEventListener('mousedown',  start);
+    el.addEventListener('mouseup',    stop);
+    el.addEventListener('mouseleave', stop);
+
+    // touch
+    el.addEventListener('touchstart',  e => { e.preventDefault(); start(e); }, { passive: false });
+    el.addEventListener('touchend',    e => { e.preventDefault(); stop(e);  }, { passive: false });
+    el.addEventListener('touchcancel', e => { e.preventDefault(); stop(e);  }, { passive: false });
+  }
+
+  // ── single-fire ──
+  function bindClick(id, action) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('mousedown',  e => { e.preventDefault(); action(); });
+    el.addEventListener('touchstart', e => { e.preventDefault(); action(); }, { passive: false });
+  }
+
   // ── init ──
   function init() {
     resizeCanvas();
     loadHighScore();
 
-    document.getElementById('t-start').addEventListener('click', startGame);
-    document.getElementById('t-pause').addEventListener('click', () => {
+    // single-fire
+    bindClick('t-start', startGame);
+    bindClick('t-pause', () => {
       if (!running) return;
       paused = !paused;
-      document.getElementById('t-pause').textContent = paused ? 'RESUME' : 'PAUSE';
-      if (!paused) { lastTime=0; raf=requestAnimationFrame(loop); }
+      document.getElementById('t-pause').textContent = paused ? 'RESUME' : 'SELECT';
+      if (!paused) { lastTime = 0; raf = requestAnimationFrame(loop); }
     });
-    document.getElementById('t-left').addEventListener('click',   () => { if(running&&!paused&&!flashing&&valid(board,getShape(pieceType),pieceX-1,pieceY)) pieceX--; });
-    document.getElementById('t-right').addEventListener('click',  () => { if(running&&!paused&&!flashing&&valid(board,getShape(pieceType),pieceX+1,pieceY)) pieceX++; });
-    document.getElementById('t-down').addEventListener('click',   () => { if(running&&!paused&&!flashing&&valid(board,getShape(pieceType),pieceX,pieceY+1)){pieceY++;score++;updateHUD();} });
-    document.getElementById('t-rotate').addEventListener('click', () => { if(!running||paused||flashing) return; const rot=rotate(getShape(pieceType)); if(valid(board,rot,pieceX,pieceY)) PIECES[pieceType]=rot; });
-    document.getElementById('t-rotate-ab').addEventListener('click', () => { if(!running||paused||flashing) return; const rot=rotate(getShape(pieceType)); if(valid(board,rot,pieceX,pieceY)) PIECES[pieceType]=rot; });
-    document.getElementById('t-drop').addEventListener('click',   () => { if(!running||paused||flashing) return; while(valid(board,getShape(pieceType),pieceX,pieceY+1)){pieceY++;score+=2;} lock();updateHUD(); });
+
+    // rotate - hold to repeat (↑ on dpad)
+    const doRotate = () => {
+      if (!running || paused || flashing) return;
+      const rot = rotate(getShape(pieceType));
+      if (valid(board, rot, pieceX, pieceY)) PIECES[pieceType] = rot;
+    };
+    bindHold('t-rotate',    doRotate, 200, 150);
+    bindClick('t-rotate-ab', doRotate);
+
+    // hard drop - single fire
+    bindClick('t-drop', () => {
+      if (!running || paused || flashing) return;
+      while (valid(board, getShape(pieceType), pieceX, pieceY + 1)) { pieceY++; score += 2; }
+      lock(); updateHUD();
+    });
+
+    // hold-to-repeat: left, right, down
+    bindHold('t-left',  () => { if (running && !paused && !flashing && valid(board, getShape(pieceType), pieceX - 1, pieceY)) pieceX--; });
+    bindHold('t-right', () => { if (running && !paused && !flashing && valid(board, getShape(pieceType), pieceX + 1, pieceY)) pieceX++; });
+    bindHold('t-down',  () => { if (running && !paused && !flashing && valid(board, getShape(pieceType), pieceX, pieceY + 1)) { pieceY++; score++; updateHUD(); } }, 150, 60);
 
     bindTouch(document.getElementById('t-board'));
 
     // keyboard
     document.addEventListener('keydown', e => {
-      if (!running||paused||flashing) return;
-      if      (e.code==='ArrowLeft')  { if(valid(board,getShape(pieceType),pieceX-1,pieceY)) pieceX--; }
-      else if (e.code==='ArrowRight') { if(valid(board,getShape(pieceType),pieceX+1,pieceY)) pieceX++; }
-      else if (e.code==='ArrowDown')  { if(valid(board,getShape(pieceType),pieceX,pieceY+1)){pieceY++;score++;updateHUD();} }
-      else if (e.code==='ArrowUp')    { const rot=rotate(getShape(pieceType)); if(valid(board,rot,pieceX,pieceY)) PIECES[pieceType]=rot; }
-      else if (e.code==='Space')      { e.preventDefault(); while(valid(board,getShape(pieceType),pieceX,pieceY+1)){pieceY++;score+=2;} lock();updateHUD(); }
+      if (!running || paused || flashing) return;
+      if      (e.code === 'ArrowLeft')  { if (valid(board, getShape(pieceType), pieceX - 1, pieceY)) pieceX--; }
+      else if (e.code === 'ArrowRight') { if (valid(board, getShape(pieceType), pieceX + 1, pieceY)) pieceX++; }
+      else if (e.code === 'ArrowDown')  { if (valid(board, getShape(pieceType), pieceX, pieceY + 1)) { pieceY++; score++; updateHUD(); } }
+      else if (e.code === 'ArrowUp')    { const rot = rotate(getShape(pieceType)); if (valid(board, rot, pieceX, pieceY)) PIECES[pieceType] = rot; }
+      else if (e.code === 'Space')      { e.preventDefault(); while (valid(board, getShape(pieceType), pieceX, pieceY + 1)) { pieceY++; score += 2; } lock(); updateHUD(); }
     });
 
-    // resize handler
+    // resize
     window.addEventListener('resize', () => {
       resizeCanvas();
-      // redraw current state after resize
       const canvas = document.getElementById('t-board');
       if (!canvas) return;
       const ctx = canvas.getContext('2d');

@@ -24,7 +24,7 @@
       <canvas id="t-board"></canvas>
     </div>
 
-    <!-- RIGHT PANEL: stats + next + action buttons -->
+    <!-- RIGHT PANEL: stats + next only -->
     <div class="right-panel">
       <div class="panel-block">
         <div class="stat-row"><span class="t-label">SCORE</span><span class="t-value" id="t-score">0</span></div>
@@ -32,16 +32,9 @@
         <div class="stat-row"><span class="t-label">LEVEL</span><span class="t-value" id="t-level">1</span></div>
         <div class="stat-row"><span class="t-label">LINES</span><span class="t-value" id="t-lines">0</span></div>
       </div>
-
       <div class="panel-block">
         <span class="t-label">NEXT</span>
         <canvas id="t-next" width="80" height="80"></canvas>
-      </div>
-
-      <div class="panel-block action-btns">
-        <button class="t-btn" id="t-start">START</button>
-        <button class="t-btn" id="t-pause">PAUSE</button>
-        <button class="t-btn accent" id="t-drop">DROP ▼▼</button>
       </div>
     </div>
 
@@ -65,13 +58,13 @@
       </div>
     </div>
 
-    <!-- CENTER: start/pause -->
+    <!-- CENTER: start / select -->
     <div class="center-btns">
       <button class="t-btn pill-btn" id="t-start">START</button>
       <button class="t-btn pill-btn" id="t-pause">SELECT</button>
     </div>
 
-    <!-- RIGHT: A/B buttons -->
+    <!-- RIGHT: A / B -->
     <div class="ab-btns">
       <div class="ab-row">
         <button class="t-btn ab-btn ab-b" id="t-drop">B</button>
